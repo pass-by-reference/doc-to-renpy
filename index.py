@@ -7,14 +7,16 @@ from renpy_doc_convert.to_renpy import ConvertToRenpy
 def parse_through_documents():
 
   for filename in os.listdir("docx"):
-    f = os.path.join("docx", filename)
+    path = os.path.join("docx", filename)
 
-    convert(f)
+    convert(path, filename)
 
-def convert(filename):
+def convert(path: str, filename: str):
 
-  output_file = filename.split(".docx")[0].replace(" ", "_").split("docx/")[1]
-  document = Document(filename)
+  print("Converting {0}".format(filename))
+
+  output_file = filename.replace(" ", "_").replace(".docx", "")
+  document = Document(path)
   obj = Consolidate(document)
   obj.consolidate_paragraphs()
 
