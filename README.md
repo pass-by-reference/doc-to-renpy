@@ -32,6 +32,8 @@ pip install -r requirements.txt
 
 # How To Convert
 
+Make sure you are sourced into your virtual environment
+
 1. Place word documents in `docx` directory
 2. Run job
 ```
@@ -40,5 +42,7 @@ python index.py
 3. Associated .rpy file should be the in `results` directory
 
 # Testing
+
+Make sure you are sourced into your virtual environment
 
 1. `python -m unittest discover`
