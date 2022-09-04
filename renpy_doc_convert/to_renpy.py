@@ -25,7 +25,6 @@ class ConvertToRenpy:
     for chunk in self.chunks:
       text = self.handle_styling(chunk)
       text = self.handle_escape_characters(text)
-      text = self.handle_interpolation(text)
       text = self.format_indentation(chunk, text)
       file.write(text)
 
@@ -47,30 +46,6 @@ class ConvertToRenpy:
         text = text + "\n"
     
     return text
-
-  def handle_interpolation(self, text : str):
-
-    newText = ""
-    while(
-      text.find("[") != -1 and
-      text.find("]") != -1):
-
-      index = text.find("]")
-      checkStr = text[0:index+1]
-
-      if "[mc_name]" in checkStr:
-        pass
-      else:
-        checkStr = checkStr.replace("[", "\'")
-        checkStr = checkStr.replace("]", "\'")
-
-      text = text[index+1:]
-      newText = newText + checkStr
-
-    if len(newText) == 0:
-      return text
-
-    return newText
 
   def handle_escape_characters(self, text : str):
     if "\"" in text:

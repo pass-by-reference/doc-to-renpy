@@ -9,13 +9,6 @@ class ConvertToRenpyPrivateTest(unittest.TestCase):
     # Setup dummy convert to renpy
     self.convert_renpy = ConvertToRenpy([], None)
 
-  def test_handle_interpolation(self):
-    text = "[mc_name] [some_random_value] [yellow]"
-
-    new_text = self.convert_renpy.handle_interpolation(text)
-
-    self.assertEqual(new_text, "[mc_name] 'some_random_value' 'yellow'")
-
   def test_handle_escape_characters(self):
     text = "wow that \"thing\" is dumb"
 
