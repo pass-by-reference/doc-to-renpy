@@ -85,7 +85,7 @@ class ConvertToRenpy:
 
   def remove_character_name_in_text(self, text : str) -> str:
     if ":" in text:
-      return text.split(":")[1].lstrip().rstrip()
+      return text.split(":")[1].lstrip()
     else:
       return text
 
