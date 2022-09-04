@@ -17,12 +17,12 @@ Sourcing for a specific OS [here](https://docs.python.org/3/library/venv.html#mo
 
 Linux
 ```
-source venv/
+source venv/activate/bin
 ```
 
 Windows
 ```
-vemv\Scripts\activate.bat
+venv/Scripts/activate.bat
 ```
 
 3. Install requirements
