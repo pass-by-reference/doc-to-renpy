@@ -1,3 +1,5 @@
+import logging
+
 from docx.text.run import Run
 from docx.shared import RGBColor
 
@@ -6,6 +8,8 @@ from typing import List
 
 OUTPUT_DIR = "./results/"
 INDENTATION_SPACES = 2
+DEFAULT_FONT_SIZE = 12.0
+DEFAULT_FONT_COLOR = "000000" # Black
 
 class ConvertToRenpy:
 
@@ -108,7 +112,7 @@ class RenpyStyling:
     if run.font.size:
       text = self.convert_font_size(text, run.font.size.pt)
 
-    if run.font.color:
+    if run.font.color and run.font.color.rgb:
       text = self.convert_font_color(text, run.font.color.rgb)
 
     if run.font.strike:
@@ -154,35 +158,34 @@ class FontStandards:
   def get_standard_font_size(self) -> int:
     """
     We have to get the standard font size for this document.
-    The first line is the standard
+    Take the font size of the first text chunk.
+
+    If no font size can be found, assume all font size is the same.
     """
-    if len(self.chunks) == 0:
-      return 0
 
-    if len(self.chunks[0].paragraphs) == 0:
-      return 0
+    # A bit disgusting but what can you do
+    for chunk in self.chunks:
+      for paragraph in chunk.paragraphs:
+        for run in paragraph.runs:
+          if(run.font.size):
+            return run.font.size.pt
 
-    if len(self.chunks[0].paragraphs[0].runs) == 0:
-      return 0
-    
-    run = self.chunks[0].paragraphs[0].runs[0]
-
-    return run.font.size.pt
+    logging.info("Found no font size in document. Assume all font are the same size")
+    return DEFAULT_FONT_SIZE
 
   def get_standard_font_color(self) -> RGBColor:
     """
     Get standard font color for this document
     The first line is the standard
     """
-    if len(self.chunks) == 0:
-      return 0
 
-    if len(self.chunks[0].paragraphs) == 0:
-      return 0
+    # A bit disgusting but what can you do
+    for chunk in self.chunks:
+      for paragraph in chunk.paragraphs:
+        for run in paragraph.runs:
+          if(run.font and run.font.color and run.font.color.rgb != None):
+            print(run.font.color.rgb)
+            return run.font.color.rgb
 
-    if len(self.chunks[0].paragraphs[0].runs) == 0:
-      return 0
-
-    run = self.chunks[0].paragraphs[0].runs[0]
-
+    logging.info("Found no font color in document. Assume all font color are the same size")
     return run.font.color.rgb
