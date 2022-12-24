@@ -1,4 +1,5 @@
 import os
+import logging
 
 from docx import Document
 from renpy_doc_convert.consolidate import Consolidate
@@ -20,10 +21,16 @@ def convert(path: str, filename: str):
   obj = Consolidate(document)
   obj.consolidate_paragraphs()
 
-  cr = ConvertToRenpy(obj.text_chunks, output_file)
+  cr = ConvertToRenpy(document, obj.text_chunks, output_file)
   cr.output_renpy_text()
+
+def setup_logging():
+  format = '%(levelname)s: %(message)s'
+  level = logging.DEBUG
+  logging.basicConfig(format=format, level=level)
 
 if __name__ == "__main__":
   
+  setup_logging()
   parse_through_documents()
   
