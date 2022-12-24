@@ -7,7 +7,7 @@ class ConvertToRenpyPrivateTest(unittest.TestCase):
 
   def setUp(self):
     # Setup dummy convert to renpy
-    self.convert_renpy = ConvertToRenpy([], None)
+    self.convert_renpy = ConvertToRenpy(None, [], None)
 
   def test_handle_escape_characters(self):
     text = "wow that \"thing\" is dumb"

@@ -16,37 +16,13 @@ def convert(path: str, filename: str):
 
   print("Converting {0}".format(filename))
 
-  if filename != "zed.docx":
-    return
-
+  output_file = filename.replace(" ", "_").replace(".docx", "")
   document = Document(path)
+  obj = Consolidate(document)
+  obj.consolidate_paragraphs()
 
-  for para in document.paragraphs:
-    # print(para._p.xml)
-    # print(para.style.font.size)
-    for run in para.runs:
-
-      if(run.font.size):
-        print(run.text + " : " + str(run.font.size.pt))
-      else:
-        print(run.text)
-
-    # print(para.text + " : " + str(para.style.font.size.pt))
-
-  # for para in document.paragraphs:
-  #   print("===================")
-  #   print(para.text)
-  #   if(para.style.font.size):
-  #     print(para.style.font.size.pt)
-
-
-  # output_file = filename.replace(" ", "_").replace(".docx", "")
-  # document = Document(path)
-  # obj = Consolidate(document)
-  # obj.consolidate_paragraphs()
-
-  # cr = ConvertToRenpy(obj.text_chunks, output_file)
-  # cr.output_renpy_text()
+  cr = ConvertToRenpy(document, obj.text_chunks, output_file)
+  cr.output_renpy_text()
 
 def setup_logging():
   format = '%(levelname)s: %(message)s'

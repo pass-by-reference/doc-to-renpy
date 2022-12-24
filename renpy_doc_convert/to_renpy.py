@@ -2,21 +2,22 @@ import logging
 
 from docx.text.run import Run
 from docx.shared import RGBColor
+from docx.document import Document
 
 from renpy_doc_convert.consolidate import TextChunk, TextType
 from typing import List
 
 OUTPUT_DIR = "./results/"
 INDENTATION_SPACES = 2
-DEFAULT_FONT_SIZE = 12.0
-DEFAULT_FONT_COLOR = "000000" # Black
+DEFAULT_FONT_SIZE = 11.0
+DEFAULT_FONT_COLOR = "000000" # Hexadecimal Black
 
 class ConvertToRenpy:
 
-  def __init__(self, chunks: List[TextChunk], output_filename : str):
+  def __init__(self, document : Document, chunks: List[TextChunk], output_filename : str):
     self.chunks : List[TextChunk] = chunks
     self.output : str = output_filename
-    self.font_standards : FontStandards = FontStandards(self.chunks)
+    self.font_standards : FontStandards = FontStandards(document, chunks)
 
   def output_renpy_text(self):
 
@@ -150,42 +151,75 @@ class RenpyStyling:
     return "{{s}}{0}{{/s}}".format(text)
 
 class FontStandards:
-  def __init__(self, chunks: List[TextChunk]):
+  def __init__(self, document : Document, chunks : TextChunk):
+    self.document = document
     self.chunks = chunks
     self.size = self.get_standard_font_size()
     self.color = self.get_standard_font_color()
 
+  def _get_size_first_line(self) -> int:
+    if(len(self.chunks) and 
+       len(self.chunks[0].paragraphs) and
+       len(self.chunks[0].paragraphs[0].runs)
+    ):
+      run = self.chunks[0].paragraphs[0].runs[0]
+      
+      if(run.font.size):
+        return run.font.size.pt
+
+    return -1
+
+  def _get_document_default(self) -> int:
+
+    if(self.document != None and
+       self.document.styles != None and
+       self.document.styles.element != None):
+
+      styles_elem = self.document.styles.element
+
+      default_LXML = styles_elem.xpath('w:docDefaults/w:rPrDefault')
+      if(len(default_LXML) != 0 and 
+        len(default_LXML[0]) != 0):
+
+        # https://github.com/python-openxml/python-docx/blob/master/docx/oxml/text/font.py#L52
+        run = default_LXML[0][0] # Should be a type CT_RPr
+
+        if(run.sz_val):
+          return run.sz_val.pt
+
+    return -1
+
   def get_standard_font_size(self) -> int:
     """
     We have to get the standard font size for this document.
-    Take the font size of the first text chunk.
 
-    If no font size can be found, assume all font size is the same.
+    Read the document default for font size
     """
 
-    # A bit disgusting but what can you do
-    for chunk in self.chunks:
-      for paragraph in chunk.paragraphs:
-        for run in paragraph.runs:
-          if(run.font.size):
-            return run.font.size.pt
+    font_size = -1
+    
+    # Use font from first line
+    if(font_size == -1):
+      font_size = self._get_size_first_line()
 
-    logging.info("Found no font size in document. Assume all font are the same size")
-    return DEFAULT_FONT_SIZE
+    # If font from first line cannot be found, use document default
+    if(font_size == -1):
+      font_size = self._get_document_default()
+
+    # If document default is not found, then use hard coded default font
+    if(font_size != -1):
+      return font_size
+
+    logging.info(
+      "Found no font size in document." 
+      "Using font size 11.0"
+    )
+    return DEFAULT_FONT_SIZE 
 
   def get_standard_font_color(self) -> RGBColor:
     """
-    Get standard font color for this document
-    The first line is the standard
+    Get standard font color for this document.
+    Assume standard font color is black
     """
 
-    # A bit disgusting but what can you do
-    for chunk in self.chunks:
-      for paragraph in chunk.paragraphs:
-        for run in paragraph.runs:
-          if(run.font and run.font.color and run.font.color.rgb != None):
-            print(run.font.color.rgb)
-            return run.font.color.rgb
-
-    logging.info("Found no font color in document. Assume all font color are the same size")
-    return run.font.color.rgb
+    return RGBColor.from_string(DEFAULT_FONT_COLOR)
