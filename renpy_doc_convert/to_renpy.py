@@ -191,9 +191,11 @@ class FontStandards:
 
   def get_standard_font_size(self) -> int:
     """
-    We have to get the standard font size for this document.
+    Find font standard size.
 
-    Read the document default for font size
+    1. Get the font size from first text line in the document
+    2. If font size doesn't exist, use the document default font size
+    3. If document font size does not exist, then use hard coded value
     """
 
     font_size = -1
