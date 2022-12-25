@@ -4,11 +4,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.8.10"
-      - run: | 
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+          python-version: "3.8"
+      - run: "python3 -m venv venv"
+      - run: "source venv/bin/activate"
+      - run: "pip install -r requirements.txt"
 
