@@ -193,7 +193,9 @@ class FontStandards:
     """
     We have to get the standard font size for this document.
 
-    Read the document default for font size
+    1. Check if the first full line text has a font size. Use that as the priority.
+    2. If the first fully line text has no font size, we check the document default
+    3. If the document default has no font size, we use hard coded value
     """
 
     font_size = -1
