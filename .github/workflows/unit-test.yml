@@ -2,6 +2,7 @@ name: Unit Tests
 on: [push]
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,7 +12,9 @@ jobs:
       - run: "python3 -m venv venv"
       - run: "source venv/bin/activate"
       - run: "pip install -r requirements.txt"
-  test:
+  unit-tests:
+    name: unit-tests
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - run: "python -m unittest discover"
