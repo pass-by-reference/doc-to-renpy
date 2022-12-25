@@ -17,7 +17,7 @@ Sourcing for a specific OS [here](https://docs.python.org/3/library/venv.html#mo
 
 Linux
 ```
-source venv/activate/bin
+source venv/bin/activate
 ```
 
 Windows
