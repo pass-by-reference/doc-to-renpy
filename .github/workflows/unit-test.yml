@@ -1,0 +1,13 @@
+name: Unit Tests
+on: [push]
+runs-on: ubuntu-latest
+jobs:
+  build:
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.8.10'
+      - run: 'python3 -m venv venv'
+      - run: 'source venv/bin/activate'
+      - run: 'pip install -r requirements.txt'
+
