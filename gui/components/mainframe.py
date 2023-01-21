@@ -1,5 +1,5 @@
 from tkinter import PhotoImage, StringVar, Listbox, Text, messagebox
-from tkinter import N, S, E, W, SINGLE
+from tkinter import N, S, E, W, SINGLE, SEL, INSERT
 from tkinter import ttk
 from tkinter.filedialog import askopenfile, asksaveasfile
 from gui.user.state import State
@@ -51,12 +51,14 @@ class MainFrame:
 
     self.rpy_frame = ttk.Frame(self.mainframe, relief="ridge")
     self.rpy_text = Text(self.rpy_frame, relief="ridge")
+    self.rpy_text.tag_add('select-all', '1.0', 'end')
 
   def __init_bind_widgets(self):
     self.choicebox.bind("<<ListboxSelect>>", self.change_selection)
     self.choicebox.bind("<Double-1>", self.change_selection)
     
     self.rpy_text.bind("<Double-Button-1>", self.choice_box_deselect)
+    self.rpy_text.bind("<Control-a>", self.renpy_text_select_all)
 
   def __init_configure_grid(self):
     self.mainframe.grid(column=0, row=0, sticky=(N, S, E, W))
@@ -208,3 +210,11 @@ class MainFrame:
           return
 
         file.write(read_file.read())
+  
+  def renpy_text_select_all(self, event):
+
+    self.rpy_text.tag_add(SEL, "1.0", "end")
+    self.rpy_text.mark_set(INSERT, "1.0")
+    self.rpy_text.see(INSERT)
+
+    return "break"
