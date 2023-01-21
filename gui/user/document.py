@@ -4,11 +4,6 @@ import os
 
 from constants import DOCX_FILE_PATH, RPY_FILE_PATH
 
-# DOCX_FILE_PATH = "/home/panda/Desktop/Programming/python/tkinter/docx"
-# DOCX_FILE_PATH = "/Users/panda/Desktop/programming/gui_prototype/docx"
-# RPY_FILE_PATH = "/home/panda/Desktop/Programming/python/tkinter/rpy"
-# RPY_FILE_PATH = "/Users/panda/Desktop/programming/gui_prototype/rpy"
-
 def get_name_from_path(path : str) -> str:
   path_parts = path.rsplit("/")
 

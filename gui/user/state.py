@@ -6,19 +6,7 @@ import json
 from tkinter import StringVar
 from constants import SAVED_WORKSPACE
 
-# SAVED_WORKSPACE = "/home/panda/Desktop/Programming/python/tkinter/saved.json"
-# SAVED_WORKSPACE = "/Users/panda/Desktop/programming/gui_prototype/saved.json"
-
 CURRENT_DOC_VERSION = "1.0.0"
-
-# choices : List[Document] = []
-
-# def does_file_name_exist(filename: str) -> bool:
-#   for document in choices:
-#     if filename.lower() == document.filename.lower():
-#       return True
-
-#   return False
 
 class State:
   def __init__(self):
