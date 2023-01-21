@@ -196,7 +196,7 @@ class MainFrame:
       document : Document = self.state.doc_list[index]
 
       if document.status == DocumentStatus.CONVERTED:
-        file = asksaveasfile()
+        file = asksaveasfile(filetypes=[("renpy script format", ".rpy")])
         if not file:
           # Cancelled request
           return
