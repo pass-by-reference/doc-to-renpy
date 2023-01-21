@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 
-from user.state import State
-from components.menubar import MenuBar
-from components.mainframe import MainFrame
+from gui.user.state import State
+from gui.components.menubar import MenuBar
+from gui.components.mainframe import MainFrame
 
 import sv_ttk
 
@@ -49,5 +49,3 @@ class AppGui:
 
     self.root.mainloop()
 
-app = AppGui()
-app.run()

@@ -1,5 +1,5 @@
 from tkinter import Menu
-from user.state import State
+from gui.user.state import State
 
 import sv_ttk
 

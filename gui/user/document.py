@@ -2,7 +2,10 @@ from enum import Enum
 import shutil
 import os
 
-from constants import DOCX_FILE_PATH, RPY_FILE_PATH
+# from ...renpy_doc_convert.api import convert
+from renpy_doc_convert.api import convert
+
+from gui.constants import DOCX_FILE_PATH, RPY_FILE_PATH
 
 def get_name_from_path(path : str) -> str:
   path_parts = path.rsplit("/")
@@ -48,22 +51,22 @@ class Document:
     shutil.copyfile(incoming_file_path, self.docx_file_path)
 
   def convert(self):
-    self.renpy_file_path = "{0}/{1}".format(RPY_FILE_PATH, self.filename)
+    filename_no_extension = self.filename.split('.')[0]
+    self.renpy_file_path = "{0}/{1}".format(RPY_FILE_PATH, filename_no_extension)
+    # try:
+    #   docx = open(self.docx_file_path, "rb")
+    #   rpy = open(self.renpy_file_path, "wb")
+    # except FileNotFoundError as e:
+    #   print(e)
+
     try:
-      docx = open(self.docx_file_path, "rb")
-      rpy = open(self.renpy_file_path, "wb")
-    except FileNotFoundError as e:
-      print(e)
+      convert(self.docx_file_path, self.renpy_file_path)
+      # rpy.write(docx.read())
 
-
-    try:
-      rpy.write(docx.read())
-
-      docx.close()
-      rpy.close()
+      # docx.close()
+      # rpy.close()
       self.status : DocumentStatus = DocumentStatus.CONVERTED
     except Exception as err:
-      print("In error here")
       self.stats : DocumentStatus = DocumentStatus.ERROR
       print(err)
 

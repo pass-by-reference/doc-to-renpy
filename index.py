@@ -5,6 +5,8 @@ from docx import Document
 from renpy_doc_convert.consolidate import Consolidate
 from renpy_doc_convert.to_renpy import ConvertToRenpy
 
+from gui.app import AppGui
+
 def parse_through_documents():
 
   for filename in os.listdir("docx"):
@@ -30,7 +32,10 @@ def setup_logging():
   logging.basicConfig(format=format, level=level)
 
 if __name__ == "__main__":
-  
-  setup_logging()
-  parse_through_documents()
+
+  app = AppGui()
+  app.run()
+
+  # setup_logging()
+  # parse_through_documents()
   

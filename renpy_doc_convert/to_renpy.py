@@ -14,18 +14,18 @@ DEFAULT_FONT_COLOR = "000000" # Hexadecimal Black
 
 class ConvertToRenpy:
 
-  def __init__(self, document : Document, chunks: List[TextChunk], output_filename : str):
+  def __init__(self, document : Document, chunks: List[TextChunk], output_file_path : str):
     self.chunks : List[TextChunk] = chunks
-    self.output : str = output_filename
+    self.output : str = output_file_path
     self.font_standards : FontStandards = FontStandards(document, chunks)
 
   def output_renpy_text(self):
 
-    filename = "{0}.rpy".format(self.output)
-    open(OUTPUT_DIR + filename, "w").close()
-    file = open(OUTPUT_DIR + filename, "a")
+    output_filepath = "{0}".format(self.output)
+    open(output_filepath, "w").close()
+    file = open(output_filepath, "a")
 
-    file.write("label {0}:\n\n".format(filename.rsplit(".rpy")[0]))
+    file.write("label {0}:\n\n".format(output_filepath.rsplit(".rpy")[0]))
 
     for chunk in self.chunks:
       text = self.handle_styling(chunk)

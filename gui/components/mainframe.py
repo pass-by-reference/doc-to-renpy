@@ -2,8 +2,8 @@ from tkinter import PhotoImage, StringVar, Listbox, Text, messagebox
 from tkinter import N, S, E, W, SINGLE
 from tkinter import ttk
 from tkinter.filedialog import askopenfile, asksaveasfile
-from user.state import State
-from user.document import Document, DocumentStatus
+from gui.user.state import State
+from gui.user.document import Document, DocumentStatus
 
 def get_name_from_path(path : str) -> str:
   path_parts = path.rsplit("/")
@@ -27,10 +27,10 @@ class MainFrame:
     self.download_rpy_button.grid_forget()
 
   def __init_images(self):
-    self.open_image = PhotoImage(file='./assets/add.png')
-    self.convert_image = PhotoImage(file="./assets/convert.png")
-    self.delete_image = PhotoImage(file="./assets/delete.png")
-    self.download_rpy_image = PhotoImage(file="./assets/download.png")
+    self.open_image = PhotoImage(file='./gui/assets/add.png')
+    self.convert_image = PhotoImage(file="./gui/assets/convert.png")
+    self.delete_image = PhotoImage(file="./gui/assets/delete.png")
+    self.download_rpy_image = PhotoImage(file="./gui/assets/download.png")
 
   def __init_widgets(self, root):
     self.mainframe = ttk.Frame(root, padding=(12,12,12,12))

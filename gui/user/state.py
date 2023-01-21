@@ -1,10 +1,10 @@
-from user.document import Document
-from user.user_settings import UserSettings
+from gui.user.document import Document
+from gui.user.user_settings import UserSettings
 from typing import List
 import json
 
 from tkinter import StringVar
-from constants import SAVED_WORKSPACE
+from gui.constants import SAVED_WORKSPACE
 
 CURRENT_DOC_VERSION = "1.0.0"
 
