@@ -2,7 +2,6 @@ from enum import Enum
 import shutil
 import os
 
-# from ...renpy_doc_convert.api import convert
 from renpy_doc_convert.api import convert
 
 from gui.constants import DOCX_FILE_PATH, RPY_FILE_PATH
@@ -53,18 +52,10 @@ class Document:
   def convert(self):
     filename_no_extension = self.filename.split('.')[0]
     self.renpy_file_path = "{0}/{1}".format(RPY_FILE_PATH, filename_no_extension)
-    # try:
-    #   docx = open(self.docx_file_path, "rb")
-    #   rpy = open(self.renpy_file_path, "wb")
-    # except FileNotFoundError as e:
-    #   print(e)
 
     try:
+      # Calls into renpy_doc_convert module
       convert(self.docx_file_path, self.renpy_file_path)
-      # rpy.write(docx.read())
-
-      # docx.close()
-      # rpy.close()
       self.status : DocumentStatus = DocumentStatus.CONVERTED
     except Exception as err:
       self.stats : DocumentStatus = DocumentStatus.ERROR

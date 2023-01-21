@@ -13,8 +13,6 @@ class AppGui:
     self.root.title("Doc To Renpy")
     self.state = State()
 
-    self.mainframe = ttk.Frame(self.root, padding=(12,12,12,12))
-
     self.menubar : MenuBar = MenuBar(self.root, self.state)
     self.mainframe : MainFrame = MainFrame(self.root, self.state)
 

@@ -7,7 +7,6 @@ from docx.document import Document
 from renpy_doc_convert.consolidate import TextChunk, TextType
 from typing import List
 
-OUTPUT_DIR = "./results/"
 INDENTATION_SPACES = 2
 DEFAULT_FONT_SIZE = 11.0
 DEFAULT_FONT_COLOR = "000000" # Hexadecimal Black
