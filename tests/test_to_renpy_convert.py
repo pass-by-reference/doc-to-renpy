@@ -44,3 +44,14 @@ class ConvertToRenpyPrivateTest(unittest.TestCase):
     new_text = self.convert_renpy.remove_character_name_in_text(text)
 
     self.assertEqual(new_text, "You will always be our reaper")
+
+  def test_get_label(self):
+    label_one = self.convert_renpy.get_label("lycoris")
+    label_two = self.convert_renpy.get_label("bocchi/the/rock")
+    label_three = self.convert_renpy.get_label("sandevistan.os")
+    label_four = self.convert_renpy.get_label("jobless/reincarnation.mp4")
+
+    self.assertEqual(label_one, "lycoris")
+    self.assertEqual(label_two, "rock")
+    self.assertEqual(label_three, "sandevistan")
+    self.assertEqual(label_four, "reincarnation")

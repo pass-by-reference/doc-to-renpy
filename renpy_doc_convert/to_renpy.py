@@ -16,16 +16,24 @@ class ConvertToRenpy:
 
   def __init__(self, document : Document, chunks: List[TextChunk], output_file_path : str):
     self.chunks : List[TextChunk] = chunks
-    self.output : str = output_file_path
+    self.output_file_path : str = output_file_path
     self.font_standards : FontStandards = FontStandards(document, chunks)
+
+  def get_label(self, output_file_path : str) -> str:
+    path_list : List[str] = output_file_path.split('/')
+    
+    filename_with_extension : str = path_list[len(path_list) - 1]
+    filename = filename_with_extension.split(".")[0]
+
+    return filename
 
   def output_renpy_text(self):
 
-    output_filepath = "{0}".format(self.output)
-    open(output_filepath, "w").close()
-    file = open(output_filepath, "a")
+    open(self.output_file_path, "w").close()
+    file = open(self.output_file_path, "a")
 
-    file.write("label {0}:\n\n".format(output_filepath.rsplit(".rpy")[0]))
+    label = self.get_label(self.output_file_path)
+    file.write("label {0}:\n\n".format(label))
 
     for chunk in self.chunks:
       text = self.handle_styling(chunk)
