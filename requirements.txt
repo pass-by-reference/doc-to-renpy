@@ -1,1 +1,2 @@
 python-docx==0.8.11
+sv-ttk==2.4
