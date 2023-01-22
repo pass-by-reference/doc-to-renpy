@@ -55,8 +55,22 @@ We can build with pyinstaller by constructing the binary files.
 
 Resource for [--add-data](https://pyinstaller.org/en/stable/spec-files.html#adding-data-files) here
 
+Linux/MacOS
 ```
-pyinstaller index.py --collect-data sv_ttk --add-data="./gui/assets/*.png:./gui/assets/"
+pyinstaller index.py \
+  --collect-data sv_ttk \
+  --add-data="./gui/assets/*.png:./gui/assets/" \
+  --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
+  --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/"
+```
+
+Windows
+```
+pyinstaller index.py \
+  --collect-data sv_ttk \
+  --add-data="./gui/assets/*.png;./gui/assets/" \
+  --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" \
+  --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/"
 ```
 
 We can run it by calling the binary file

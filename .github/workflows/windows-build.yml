@@ -1,0 +1,14 @@
+name: Windows-Build
+on: [push]
+jobs:
+  windows-build:
+    name: windows-build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: "python3 -m venv venv"
+      - run: "venv/Scripts/activate.bat"
+      - run: "pip install -r requirements.txt"
