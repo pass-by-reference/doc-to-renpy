@@ -48,6 +48,20 @@ python index.py --quick_convert
 ```
 3. Converted .rpy file should be the in `./quick_convert_data/renpy` directory
 
+# Building
+
+Okay, how do I install it on other people's machine without downloading it. 
+We can build with pyinstaller by constructing the binary files.
+
+Resource for [--add-data](https://pyinstaller.org/en/stable/spec-files.html#adding-data-files) here
+
+```
+pyinstaller index.py --collect-data sv_ttk --add-data="./gui/assets/*.png:./gui/assets/"
+```
+
+We can run it by calling the binary file
+1. `./dist/index/index`
+
 # Logging
 
 There are two levels of logging

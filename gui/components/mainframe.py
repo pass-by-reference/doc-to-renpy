@@ -5,6 +5,8 @@ from tkinter.filedialog import askopenfile, asksaveasfile
 from gui.user.state import State
 from gui.user.document import Document, DocumentStatus
 
+from gui.constants import BASE_PATH
+
 def get_name_from_path(path : str) -> str:
   path_parts = path.rsplit("/")
   last_index = len(path_parts) - 1
@@ -27,10 +29,10 @@ class MainFrame:
     self.download_rpy_button.grid_forget()
 
   def __init_images(self):
-    self.open_image = PhotoImage(file='./gui/assets/add.png')
-    self.convert_image = PhotoImage(file="./gui/assets/convert.png")
-    self.delete_image = PhotoImage(file="./gui/assets/delete.png")
-    self.download_rpy_image = PhotoImage(file="./gui/assets/download.png")
+    self.open_image = PhotoImage(file="{0}/assets/add.png".format(BASE_PATH))
+    self.convert_image = PhotoImage(file="{0}/assets/convert.png".format(BASE_PATH))
+    self.delete_image = PhotoImage(file="{0}/assets/delete.png".format(BASE_PATH))
+    self.download_rpy_image = PhotoImage(file="{0}/assets/download.png".format(BASE_PATH))
 
   def __init_widgets(self, root):
     self.mainframe = ttk.Frame(root, padding=(12,12,12,12))
