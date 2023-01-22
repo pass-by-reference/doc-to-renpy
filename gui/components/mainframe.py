@@ -1,9 +1,9 @@
 from tkinter import PhotoImage, StringVar, Listbox, Text, messagebox
-from tkinter import N, S, E, W, SINGLE
+from tkinter import N, S, E, W, SINGLE, SEL, INSERT
 from tkinter import ttk
 from tkinter.filedialog import askopenfile, asksaveasfile
-from user.state import State
-from user.document import Document, DocumentStatus
+from gui.user.state import State
+from gui.user.document import Document, DocumentStatus
 
 def get_name_from_path(path : str) -> str:
   path_parts = path.rsplit("/")
@@ -27,10 +27,10 @@ class MainFrame:
     self.download_rpy_button.grid_forget()
 
   def __init_images(self):
-    self.open_image = PhotoImage(file='./assets/add.png')
-    self.convert_image = PhotoImage(file="./assets/convert.png")
-    self.delete_image = PhotoImage(file="./assets/delete.png")
-    self.download_rpy_image = PhotoImage(file="./assets/download.png")
+    self.open_image = PhotoImage(file='./gui/assets/add.png')
+    self.convert_image = PhotoImage(file="./gui/assets/convert.png")
+    self.delete_image = PhotoImage(file="./gui/assets/delete.png")
+    self.download_rpy_image = PhotoImage(file="./gui/assets/download.png")
 
   def __init_widgets(self, root):
     self.mainframe = ttk.Frame(root, padding=(12,12,12,12))
@@ -51,12 +51,14 @@ class MainFrame:
 
     self.rpy_frame = ttk.Frame(self.mainframe, relief="ridge")
     self.rpy_text = Text(self.rpy_frame, relief="ridge")
+    self.rpy_text.tag_add('select-all', '1.0', 'end')
 
   def __init_bind_widgets(self):
     self.choicebox.bind("<<ListboxSelect>>", self.change_selection)
     self.choicebox.bind("<Double-1>", self.change_selection)
     
     self.rpy_text.bind("<Double-Button-1>", self.choice_box_deselect)
+    self.rpy_text.bind("<Control-a>", self.renpy_text_select_all)
 
   def __init_configure_grid(self):
     self.mainframe.grid(column=0, row=0, sticky=(N, S, E, W))
@@ -196,7 +198,7 @@ class MainFrame:
       document : Document = self.state.doc_list[index]
 
       if document.status == DocumentStatus.CONVERTED:
-        file = asksaveasfile()
+        file = asksaveasfile(filetypes=[("renpy script format", ".rpy")])
         if not file:
           # Cancelled request
           return
@@ -208,3 +210,11 @@ class MainFrame:
           return
 
         file.write(read_file.read())
+  
+  def renpy_text_select_all(self, event):
+
+    self.rpy_text.tag_add(SEL, "1.0", "end")
+    self.rpy_text.mark_set(INSERT, "1.0")
+    self.rpy_text.see(INSERT)
+
+    return "break"

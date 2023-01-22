@@ -1,36 +1,65 @@
 import os
 import logging
+import argparse
 
-from docx import Document
-from renpy_doc_convert.consolidate import Consolidate
-from renpy_doc_convert.to_renpy import ConvertToRenpy
+from renpy_doc_convert.api import convert
 
-def parse_through_documents():
+from gui.app import AppGui
 
-  for filename in os.listdir("docx"):
-    path = os.path.join("docx", filename)
+# Get absolute path of project directory
+PROJECT_BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+RENPY_DIR = "{0}/quick_convert_data/renpy/".format(PROJECT_BASE_PATH)
+DOCX_DIR = "{0}/quick_convert_data/docx/".format(PROJECT_BASE_PATH)
 
-    convert(path, filename)
+def quick_convert():
+  for filename in os.listdir(DOCX_DIR):
 
-def convert(path: str, filename: str):
+    (file_name_no_ext, extension) = os.path.splitext(filename)  
 
-  print("Converting {0}".format(filename))
+    if extension == ".docx":
+      logging.info("Converting {0}".format(filename))
 
-  output_file = filename.replace(" ", "_").replace(".docx", "")
-  document = Document(path)
-  obj = Consolidate(document)
-  obj.consolidate_paragraphs()
+      docx_file_path = os.path.join(DOCX_DIR, filename)
+      renpy_file_path = os.path.join(RENPY_DIR, file_name_no_ext + ".rpy")
+      logging.debug(docx_file_path)
+      logging.debug(renpy_file_path)
 
-  cr = ConvertToRenpy(document, obj.text_chunks, output_file)
-  cr.output_renpy_text()
+      convert(docx_file_path, renpy_file_path)
+    else:
+      logging.info("{0} is not a docx format. Will not convert".format(filename))
 
-def setup_logging():
+def setup_logging(use_debug : bool):
   format = '%(levelname)s: %(message)s'
-  level = logging.DEBUG
+  level = logging.DEBUG if use_debug else logging.INFO
   logging.basicConfig(format=format, level=level)
 
+def setup_arguments():
+  parser = argparse.ArgumentParser(description="Convert docx to renpy file format")
+  parser.add_argument(
+    "--quick_convert", 
+    help="Do a quick convert rather going through gui",
+    action="store_true")
+
+  parser.add_argument(
+    "--verbose",
+    help="Log DEBUG level logs",
+    action="store_true"
+  )
+
+  return parser.parse_args()
+
 if __name__ == "__main__":
+
+  args = setup_arguments()
+
+  setup_logging(args.verbose)
   
-  setup_logging()
-  parse_through_documents()
+  if args.quick_convert:
+    logging.info("Using quick convert")
+    quick_convert()
+  else:
+    logging.info("Using GUI")
+    app = AppGui()
+    app.run()
+
   
