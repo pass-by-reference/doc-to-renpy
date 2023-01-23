@@ -1,0 +1,52 @@
+name: Build Runtime
+description: Build runtime files for windows and linux.
+# on:
+#   push:
+#     tags:
+#       - '*'
+on: [push]
+jobs:
+  windows-build:
+    name: windows-build
+    runs-on: windows-latest
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: "pip install -r requirements.txt"
+      - run: |
+          pyinstaller index.py `
+            --collect-data sv_ttk `
+            --add-data="./gui/assets/*.png;./gui/assets/" `
+            --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" `
+            --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/" `
+            --name doc_to_renpy
+      - uses: actions/upload-artifact@v3
+        with:
+          name: doc_to_renpy-windows-${{ github.ref_name }}
+          path: dist/
+          retention-days: 2
+  linux-build:
+    name: linux-build
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: "pip install -r requirements.txt"
+      - run: |
+          pyinstaller index.py \
+            --collect-data sv_ttk \
+            --add-data="./gui/assets/*.png:./gui/assets/" \
+            --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
+            --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/" \
+            --name doc_to_renpy
+      - uses: actions/upload-artifact@v3
+        with:
+          name: doc_to_renpy-linux-${{ github.ref_name }}
+          path: dist/
+          retention-days: 2

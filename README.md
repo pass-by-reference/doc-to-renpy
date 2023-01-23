@@ -61,20 +61,27 @@ pyinstaller index.py \
   --collect-data sv_ttk \
   --add-data="./gui/assets/*.png:./gui/assets/" \
   --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
-  --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/"
+  --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/" \
+  --name doc_to_renpy
 ```
 
 Windows
 ```
-pyinstaller index.py \
-  --collect-data sv_ttk \
-  --add-data="./gui/assets/*.png;./gui/assets/" \
-  --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" \
-  --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/"
+pyinstaller index.py `
+  --collect-data sv_ttk `
+  --add-data="./gui/assets/*.png;./gui/assets/" `
+  --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" `
+  --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/" `
+  --name doc_to_renpy
 ```
 
-We can run it by calling the binary file
-1. `./dist/index/index`
+You can run it by calling the binary file
+1. `./dist/index/doc_to_renpy`
+
+OR
+
+You can click on the exectuable (Windows) or binary file (Linux/MacOS)
+1. `{{path_to_repo}}/dist/doc_to_renpy/doc_to_renpy`
 
 # Logging
 
