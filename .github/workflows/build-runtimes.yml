@@ -25,7 +25,7 @@ jobs:
             --name doc_to_renpy
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-windows-${{branch_name}}
+          name: doc_to_renpy-windows-${{env.branch_name}}
           path: dist/
           retention-days: 2
   linux-build:
@@ -48,6 +48,6 @@ jobs:
             --name doc_to_renpy
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-linux-${{branch_name}}
+          name: doc_to_renpy-linux-${{env.branch_name}}
           path: dist/
           retention-days: 2
