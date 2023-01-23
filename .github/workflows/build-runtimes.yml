@@ -5,50 +5,53 @@ name: Build Runtime
 #       - '*'
 on: [push]
 jobs:
-  # windows-build:
-  #   name: windows-build
-  #   runs-on: windows-latest
-  #   steps:
-      # - uses: actions/checkout@v3
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: "3.8"
-      # - run: "pip install -r requirements.txt"
-      # - run: |
-      #     pyinstaller index.py `
-      #       --collect-data sv_ttk `
-      #       --add-data="./gui/assets/*.png;./gui/assets/" `
-      #       --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" `
-      #       --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/" `
-      #       --name doc_to_renpy
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: doc_to_renpy-windows-${{env.branch_name}}
-      #     path: dist/
-      #     retention-days: 2
+  windows-build:
+    name: windows-build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: "pip install -r requirements.txt"
+      - run: |
+          pyinstaller index.py `
+            --collect-data sv_ttk `
+            --add-data="./gui/assets/*.png;./gui/assets/" `
+            --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" `
+            --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/" `
+            --name doc_to_renpy
+      - run: | 
+          $local_ref_name="${{github.ref_name}}"
+          $branch_name=$local_ref_name.replace("/", "-")
+          echo "BUILD_VERSION=$branch_name" >> $env:GITHUB_ENV
+      - uses: actions/upload-artifact@v3
+        with:
+          name: doc_to_renpy-windows-${{env:BUILD_VERSION}}
+          path: dist/
+          retention-days: 2
   linux-build:
     name: linux-build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - run: "pip install -r requirements.txt"
+      - run: |
+          pyinstaller index.py \
+            --collect-data sv_ttk \
+            --add-data="./gui/assets/*.png:./gui/assets/" \
+            --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
+            --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/" \
+            --name doc_to_renpy
       - run: | 
           local_ref_name="${{github.ref_name}}"
-          echo "${local_ref_name//[\/]/-}" # Take / in ref name and replace with -
-      # - uses: actions/checkout@v3
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: "3.8"
-      # - run: "pip install -r requirements.txt"
-      # - run: |
-      #     pyinstaller index.py \
-      #       --collect-data sv_ttk \
-      #       --add-data="./gui/assets/*.png:./gui/assets/" \
-      #       --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
-      #       --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/" \
-      #       --name doc_to_renpy
-      # - run: |
-      #     echo ""
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: doc_to_renpy-linux-${{env.branch_name}}
-      #     path: dist/
-      #     retention-days: 2
+          # Take / in ref name and replace with -
+          echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
+      - uses: actions/upload-artifact@v3
+        with:
+          name: doc_to_renpy-linux-${{env.BUILD_VERSION}}
+          path: dist/
+          retention-days: 2
