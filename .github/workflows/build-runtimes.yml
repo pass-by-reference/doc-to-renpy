@@ -1,5 +1,4 @@
 name: Build Runtime
-description: Build runtime files for windows and linux.
 # on:
 #   push:
 #     tags:
