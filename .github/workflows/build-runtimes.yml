@@ -8,10 +8,8 @@ jobs:
   windows-build:
     name: windows-build
     runs-on: windows-latest
-    env:
-      branch_name: ${{ echo "${github.ref_name//[\/]/-}" }}
     steps:
-      - run: echo ${{env.branch_name}}
+      - uses: mxschmitt/action-tmate@v3
       # - uses: actions/checkout@v3
       # - uses: actions/setup-python@v4
       #   with:
