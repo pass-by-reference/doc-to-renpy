@@ -8,6 +8,8 @@ jobs:
   windows-build:
     name: windows-build
     runs-on: windows-latest
+    env:
+      branch_name: echo "${github.ref_name//[\/]/-}"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -23,12 +25,14 @@ jobs:
             --name doc_to_renpy
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-windows-${{github.ref_name}//[\/]/-}
+          name: doc_to_renpy-windows-${{branch_name}}
           path: dist/
           retention-days: 2
   linux-build:
     name: linux-build
     runs-on: ubuntu-latest
+    env:
+      branch_name: echo "${github.ref_name//[\/]/-}"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -44,6 +48,6 @@ jobs:
             --name doc_to_renpy
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-linux-${{github.ref_name}//[\/]/-}
+          name: doc_to_renpy-linux-${{branch_name}}
           path: dist/
           retention-days: 2
