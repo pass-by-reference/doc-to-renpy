@@ -27,7 +27,7 @@ jobs:
           echo "BUILD_VERSION=$branch_name" >> $env:GITHUB_ENV
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-windows-${{env:BUILD_VERSION}}
+          name: doc_to_renpy-windows-${{env.BUILD_VERSION}}
           path: dist/
           retention-days: 2
   linux-build:
