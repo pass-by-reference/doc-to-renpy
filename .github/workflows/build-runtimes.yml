@@ -29,8 +29,6 @@ jobs:
   linux-build:
     name: linux-build
     runs-on: ubuntu-latest
-    env:
-      branch_name: ${{ echo "${github.ref_name//[\/]/-}" }}
     steps:
       - run: | 
           echo "${github.ref_name}"
