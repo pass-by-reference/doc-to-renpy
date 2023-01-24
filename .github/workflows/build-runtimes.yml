@@ -1,9 +1,5 @@
 name: Build Runtime
-# on:
-#   push:
-#     tags:
-#       - '*'
-on: [push]
+on: workflow_dispatch
 jobs:
   windows-build:
     name: windows-build
