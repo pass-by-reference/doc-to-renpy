@@ -30,7 +30,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: doc_to_renpy-windows-${{env.BUILD_VERSION}}
-          path: dist/
+          path: doc_to_renpy-windows-${{env.BUILD_VERSION}}.tar.gz
           retention-days: 2
   linux-build:
     name: linux-build
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: doc_to_renpy-linux-${{env.BUILD_VERSION}}
-          path: dist.tar
+          path: doc_to_renpy-linux-${{env.BUILD_VERSION}}.tar.gz
           retention-days: 2
   mac-build:
     name: mac-build
@@ -80,9 +80,9 @@ jobs:
           # Take / in ref name and replace with -
           echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
       - run: |
-          tar -cvf doc_to_renpy-macos-x64-${{env.BUILD_VERSION}}.tar.gz ./dist
+          tar -cvf doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}.tar.gz ./dist
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-macos-x64-${{env.BUILD_VERSION}}
-          path: dist.tar
+          name: doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}
+          path: doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}.tar.gz
           retention-days: 2
