@@ -32,7 +32,7 @@ jobs:
           retention-days: 2
   linux-build:
     name: linux-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
