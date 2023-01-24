@@ -50,8 +50,10 @@ jobs:
           local_ref_name="${{github.ref_name}}"
           # Take / in ref name and replace with -
           echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
+      - run: |
+          tar -cvf dist.tar ./dist
       - uses: actions/upload-artifact@v3
         with:
           name: doc_to_renpy-linux-${{env.BUILD_VERSION}}
-          path: dist/
+          path: dist.tar
           retention-days: 2
