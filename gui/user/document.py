@@ -2,6 +2,7 @@ from enum import Enum
 import shutil
 import os
 
+from tkinter import messagebox
 from renpy_doc_convert.api import convert
 
 from gui.constants import DOCX_FILE_PATH, RPY_FILE_PATH
@@ -58,7 +59,8 @@ class Document:
       convert(self.docx_file_path, self.renpy_file_path)
       self.status : DocumentStatus = DocumentStatus.CONVERTED
     except Exception as err:
-      self.stats : DocumentStatus = DocumentStatus.ERROR
+      self.status : DocumentStatus = DocumentStatus.ERROR
+      messagebox.showerror("Convert Error", err)
       print(err)
 
   def on_select(self) -> str:
