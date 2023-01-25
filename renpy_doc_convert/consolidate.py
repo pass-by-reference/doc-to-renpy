@@ -2,8 +2,8 @@ from docx.document import Document
 from docx.text.paragraph import Paragraph
 
 from enum import Enum
-
 from typing import List
+import logging
 
 class TextType(Enum):
   DIALOGUE = 1
@@ -25,13 +25,16 @@ class Consolidate:
     self.document = document
     self.text_chunks : list[TextChunk] = []
     self.doc_paragraphs : list[Paragraph] = document.paragraphs
+
+    logging.debug("Finish with Consolidate constructor")
   
   def consolidate_paragraphs(self):
 
     processing_chunk = False
 
-    for paragraph in self.doc_paragraphs:
+    logging.debug("Processing {0} paragraphs".format(len(self.doc_paragraphs)))
 
+    for paragraph in self.doc_paragraphs:
       if len(paragraph.text) > 0 and paragraph.text[0] == "#":
         continue
       

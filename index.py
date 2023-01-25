@@ -21,15 +21,13 @@ def quick_convert():
 
       docx_file_path = os.path.join(DOCX_DIR, filename)
       renpy_file_path = os.path.join(RENPY_DIR, file_name_no_ext + ".rpy")
-      logging.debug(docx_file_path)
-      logging.debug(renpy_file_path)
 
       convert(docx_file_path, renpy_file_path)
     else:
       logging.info("{0} is not a docx format. Will not convert".format(filename))
 
 def setup_logging(use_debug : bool):
-  format = '%(levelname)s: %(message)s'
+  format = '%(asctime)s (%(filename)s-%(funcName)s) %(levelname)s: %(message)s'
   level = logging.DEBUG if use_debug else logging.INFO
   logging.basicConfig(format=format, level=level)
 
