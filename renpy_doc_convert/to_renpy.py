@@ -18,13 +18,17 @@ class ConvertToRenpy:
     self.output_file_path : str = output_file_path
     self.font_standards : FontStandards = FontStandards(document, chunks)
 
+    logging.debug("Finish with initializing ConvertToRenpy constructor")
+
   def get_label(self, output_file_path : str) -> str:
     path_list : List[str] = output_file_path.split('/')
     
     filename_with_extension : str = path_list[len(path_list) - 1]
-    filename = filename_with_extension.split(".")[0]
+    label = filename_with_extension.split(".")[0]
 
-    return filename
+    logging.debug("Renpy label: {0}".format(label))
+
+    return label
 
   def output_renpy_text(self):
 
@@ -33,6 +37,8 @@ class ConvertToRenpy:
 
     label = self.get_label(self.output_file_path)
     file.write("label {0}:\n\n".format(label))
+
+    logging.debug("Processing {0} text chunk(s)".format(len(self.chunks)))
 
     for chunk in self.chunks:
       text = self.handle_styling(chunk)
@@ -162,7 +168,11 @@ class FontStandards:
     self.document = document
     self.chunks = chunks
     self.size = self.get_standard_font_size()
-    self.color = self.get_standard_font_color()
+    self.color : RGBColor = self.get_standard_font_color()
+
+    logging.debug("Font Size Standard: {0}".format(self.size))
+    logging.debug("Font Color standard: {0}".format(self.color))
+    logging.debug("Finish with initializing FontStandards constructor")
 
   def _get_size_first_line(self) -> int:
     if(len(self.chunks) and 
