@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import ttk
 
 from gui.user.state import State
 from gui.components.menubar import MenuBar
@@ -10,7 +9,7 @@ import sv_ttk
 class AppGui:
   def __init__(self):
     self.root = Tk()
-    self.root.title("Doc To Renpy")
+    self.root.title("Docx To Renpy")
     self.state = State()
 
     self.menubar : MenuBar = MenuBar(self.root, self.state)
