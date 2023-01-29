@@ -3,6 +3,7 @@ from tkinter import *
 from gui.user.state import State
 from gui.components.menubar import MenuBar
 from gui.components.mainframe import MainFrame
+from gui.constants import BASE_PATH
 
 import sv_ttk
 
@@ -11,6 +12,9 @@ class AppGui:
     self.root = Tk()
     self.root.title("Docx To Renpy")
     self.state = State()
+    icon = PhotoImage(file="{0}/assets/icon.jpeg".format(BASE_PATH))
+
+    self.root.iconphoto(False, icon)
 
     self.menubar : MenuBar = MenuBar(self.root, self.state)
     self.mainframe : MainFrame = MainFrame(self.root, self.state)
