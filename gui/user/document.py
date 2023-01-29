@@ -1,6 +1,7 @@
 from enum import Enum
 import shutil
 import os
+import logging
 
 from tkinter import messagebox
 from renpy_doc_convert.api import convert
@@ -61,7 +62,7 @@ class Document:
     except Exception as err:
       self.status : DocumentStatus = DocumentStatus.ERROR
       messagebox.showerror("Convert Error", err)
-      print(err)
+      logging.error(err)
 
   def on_select(self) -> str:
     if self.status == DocumentStatus.NOT_CONVERTED:

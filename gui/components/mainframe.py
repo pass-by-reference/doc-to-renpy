@@ -172,6 +172,11 @@ class MainFrame:
 
       document.convert()
       self.change_selection(None)
+    else:
+      messagebox.showerror(
+        "Convert Error", 
+        "No selection found. Please select a document"
+      )
 
   def delete(self):
     selection : tuple = self.choicebox.curselection() # Returns a tuple of index of selected listbox item
@@ -188,8 +193,14 @@ class MainFrame:
       self.delete_button.grid_forget()
       self.download_rpy_button.grid_forget()
 
-    if(len(self.state.doc_list) == 0):
-      self.rpy_text.delete("1.0", "end")
+      if(len(self.state.doc_list) == 0):
+        self.rpy_text.delete("1.0", "end")
+
+    else:
+      messagebox.showerror(
+        "Delete Error", 
+        "No selection found. Please select a document"
+      )
 
   def save_rpy_file(self):
     selection : tuple = self.choicebox.curselection() # Returns a tuple of index of selected listbox item
@@ -212,6 +223,11 @@ class MainFrame:
           return
 
         file.write(read_file.read())
+    else:
+      messagebox.showerror(
+        "Save Error", 
+        "No selection found. Please select a document"
+      )
   
   def renpy_text_select_all(self, event):
 

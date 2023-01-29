@@ -65,7 +65,7 @@ pyinstaller index.py \
   --name doc_to_renpy
 ```
 
-Windows
+Windows (Powershell)
 ```
 pyinstaller index.py `
   --collect-data sv_ttk `
@@ -76,7 +76,7 @@ pyinstaller index.py `
 ```
 
 You can run it by calling the binary file
-1. `./dist/index/doc_to_renpy`
+1. `{{path_to_repo}}/dist/doc_to_renpy/doc_to_renpy`
 
 OR
 
