@@ -12,7 +12,7 @@ class AppGui:
     self.root = Tk()
     self.root.title("Docx To Renpy")
     self.state = State()
-    icon = PhotoImage(file="{0}/assets/icon.jpeg".format(BASE_PATH))
+    icon = PhotoImage(file="{0}/assets/icon.png".format(BASE_PATH))
 
     self.root.iconphoto(False, icon)
 
