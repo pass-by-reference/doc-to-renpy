@@ -62,6 +62,7 @@ pyinstaller index.py \
   --add-data="./gui/assets/*.png:./gui/assets/" \
   --add-data="./quick_convert_data/docx/*:./quick_convert_data/docx/" \
   --add-data="./quick_convert_data/renpy/*:./quick_convert_data/renpy/" \
+  --windowed
   --name doc_to_renpy
 ```
 
@@ -72,6 +73,7 @@ pyinstaller index.py `
   --add-data="./gui/assets/*.png;./gui/assets/" `
   --add-data="./quick_convert_data/docx/*;./quick_convert_data/docx/" `
   --add-data="./quick_convert_data/renpy/*;./quick_convert_data/renpy/" `
+  --windowed
   --name doc_to_renpy
 ```
 
