@@ -23,11 +23,11 @@ jobs:
           $branch_name=$local_ref_name.replace("/", "-")
           echo "BUILD_VERSION=$branch_name" >> $env:GITHUB_ENV
       - run: |
-          tar -cvf doc_to_renpy-windows-${{env.BUILD_VERSION}}.tar.gz ./dist
+          Compress-Archive ./dist ./doc_to_renpy-windows-${{env.BUILD_VERSION}}
       - uses: actions/upload-artifact@v3
         with:
           name: doc_to_renpy-windows-${{env.BUILD_VERSION}}
-          path: doc_to_renpy-windows-${{env.BUILD_VERSION}}.tar.gz
+          path: doc_to_renpy-windows-${{env.BUILD_VERSION}}.zip
           retention-days: 2
   linux-build:
     name: linux-build
@@ -79,9 +79,9 @@ jobs:
           # Take / in ref name and replace with -
           echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
       - run: |
-          tar -cvf doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}.tar.gz ./dist
+          ditto -c -k --sequesterRsrc --keepParent ./dist doc_to_renpy-macos-${{env.BUILD_VERSION}}.zip
       - uses: actions/upload-artifact@v3
         with:
-          name: doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}
-          path: doc_to_renpy-macos-x86-${{env.BUILD_VERSION}}.tar.gz
+          name: doc_to_renpy-macos-${{env.BUILD_VERSION}}
+          path: doc_to_renpy-macos-${{env.BUILD_VERSION}}.zip
           retention-days: 2
