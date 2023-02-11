@@ -32,21 +32,19 @@ class ConvertToRenpy:
 
   def output_renpy_text(self):
 
-    open(self.output_file_path, "w").close()
-    file = open(self.output_file_path, "a")
+    logging.debug("Output renpy text to file")
+    with open(self.output_file_path, "w", encoding="utf-8") as file:
 
-    label = self.get_label(self.output_file_path)
-    file.write("label {0}:\n\n".format(label))
+      label = self.get_label(self.output_file_path)
+      file.write("label {0}:\n\n".format(label))
 
-    logging.debug("Processing {0} text chunk(s)".format(len(self.chunks)))
+      logging.debug("Processing {0} text chunk(s)".format(len(self.chunks)))
 
-    for chunk in self.chunks:
-      text = self.handle_styling(chunk)
-      text = self.handle_escape_characters(text)
-      text = self.format_indentation(chunk, text)
-      file.write(text)
-
-    file.close()
+      for chunk in self.chunks:
+        text = self.handle_styling(chunk)
+        text = self.handle_escape_characters(text)
+        text = self.format_indentation(chunk, text)
+        file.write(text)
 
   def handle_styling(self, chunk: TextChunk) -> str:
     text = ""

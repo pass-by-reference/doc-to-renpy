@@ -76,21 +76,22 @@ class Document:
 
   def _open_rpy_file(self) -> str:
     try:
-      rpy = open(self.renpy_file_path, "r")
+      with open(self.renpy_file_path, "r", encoding="utf-8") as rpy_file:
+        return rpy_file.read()
     except FileNotFoundError:
-      print("Cannot find renpy file. Did you modify your appdata")
-      return "Error"
-
-    text = ""
-    try:
-      text = rpy.read()
-    except Exception as e:
-      print(e)
       self.status : DocumentStatus = DocumentStatus.ERROR
-      return "Error with opening renpy file"
+
+      error_msg = "Cannot find converted renpy file. Did you delete files from doc_to_renpy/gui/tempdata"
       
-    rpy.close()
-    return text
+      messagebox.showerror("ERROR: Converted File", error_msg)
+      logging.error(error_msg)
+      return error_msg
+    except Exception as err:
+      self.status : DocumentStatus = DocumentStatus.ERROR
+
+      messagebox.showerror(err)
+      logging.error(err)
+      return err
 
   def remove_files(self):
     if (self.docx_file_path != "" and
@@ -98,14 +99,14 @@ class Document:
       try:
         os.remove(self.docx_file_path)
       except FileNotFoundError:
-        print("Cannot remove ${0}".format(self.docx_file_path))
+        logging.error("Cannot remove ${0}".format(self.docx_file_path))
     
     if (self.renpy_file_path != "" and
         os.path.isfile(self.renpy_file_path)):
       try:
         os.remove(self.renpy_file_path)
       except FileNotFoundError:
-        print("Cannot remove ${0}".format(self.renpy_file_path))
+        logging.error("Cannot remove ${0}".format(self.renpy_file_path))
 
   def overwrite(self, incoming_file_path):
     self.remove_files()
