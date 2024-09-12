@@ -2,7 +2,9 @@
 
 A simple script to convert contents of a word doc to renpy text format.
 
-Ensure you have atleast python version 3.8.10
+Use for renpy version 8.3.2
+
+Ensure you have atleast python version 3.12.6
 
 # Installation
 
