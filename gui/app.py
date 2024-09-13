@@ -5,12 +5,14 @@ from gui.components.menubar import MenuBar
 from gui.components.mainframe import MainFrame
 from gui.constants import BASE_PATH
 
+from renpy_doc_convert.api import DOC_TO_RENPY_VERSION
+
 import sv_ttk
 
 class AppGui:
   def __init__(self):
     self.root = Tk()
-    self.root.title("Docx To Renpy")
+    self.root.title("Docx To Renpy v{0}".format(DOC_TO_RENPY_VERSION))
     self.state = State()
     icon = PhotoImage(file="{0}/assets/icon.png".format(BASE_PATH))
 
