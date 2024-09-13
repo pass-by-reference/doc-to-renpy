@@ -59,7 +59,7 @@ class Consolidate:
 
   def get_character(self, paragraph: Paragraph, text_type: TextType) -> str:
     if text_type == TextType.DIALOGUE:
-      return paragraph.text.rsplit(":")[0]
+      return paragraph.text.split(":", maxsplit=1)[0]
 
     return ""
       
