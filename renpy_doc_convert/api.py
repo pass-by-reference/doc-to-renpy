@@ -4,6 +4,8 @@ from renpy_doc_convert.to_renpy import ConvertToRenpy
 
 import logging
 
+DOC_TO_RENPY_VERSION="1.0.1"
+
 def convert(docx_file_path: str, renpy_file_path : str):
 
   logging.debug("Docx File->{0}".format(docx_file_path))
