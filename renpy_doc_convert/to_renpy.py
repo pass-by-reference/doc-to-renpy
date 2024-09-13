@@ -1,4 +1,5 @@
 import logging
+from collections import namedtuple
 
 from docx.text.run import Run
 from docx.shared import RGBColor
@@ -11,12 +12,17 @@ INDENTATION_SPACES = 2
 DEFAULT_FONT_SIZE = 11.0
 DEFAULT_FONT_COLOR = "000000" # Hexadecimal Black
 
+# name_found : bool
+# text : string
+CharNameReturn = namedtuple('CharNameReturn', ['name_found', 'text'])
+
 class ConvertToRenpy:
 
   def __init__(self, document : Document, chunks: List[TextChunk], output_file_path : str):
     self.chunks : List[TextChunk] = chunks
     self.output_file_path : str = output_file_path
     self.font_standards : FontStandards = FontStandards(document, chunks)
+    self.renpy_styler = RenpyStyling(self.font_standards)
 
     logging.debug("Finish with initializing ConvertToRenpy constructor")
 
@@ -48,14 +54,21 @@ class ConvertToRenpy:
 
   def handle_styling(self, chunk: TextChunk) -> str:
     text = ""
-    rs = RenpyStyling(self.font_standards)
 
     for index, paragraph in enumerate(chunk.paragraphs):
+
+      character_name_found : bool = False
+      
       for run in paragraph.runs:
-        run.text = self.remove_character_name_in_text(run.text)
+
+        if(not character_name_found):
+          char_ret = self.remove_character_name_in_text(run.text)
+
+          character_name_found : bool = char_ret.name_found
+          run.text = char_ret.text
 
         # Do all bold, italics, and color here
-        appendtext = rs.process_run_for_styling(run)
+        appendtext = self.renpy_styler.process_run_for_styling(run)
         text = text + appendtext
 
       if len(chunk.paragraphs) - 1 != index:
@@ -99,11 +112,14 @@ class ConvertToRenpy:
   def format_non_dialogue(self, text: str):
     return "  \"" + text + "\"\n\n"
 
-  def remove_character_name_in_text(self, text : str) -> str:
+  def remove_character_name_in_text(self, text : str) -> CharNameReturn:
     if ":" in text:
-      return text.split(":")[1].lstrip()
+      text = text.split(":", maxsplit=1)[1].lstrip()
+
+      # Returns text without name in it.
+      return CharNameReturn(name_found = True, text = text)
     else:
-      return text
+      return CharNameReturn(name_found = False, text = "")
 
 class RenpyStyling:
 
