@@ -23,7 +23,7 @@ jobs:
           $branch_name=$local_ref_name.replace("/", "-")
           echo "BUILD_VERSION=$branch_name" >> $env:GITHUB_ENV
       - run: |
-          Compress-Archive ./dist ./doc_to_renpy-windows-${{env.BUILD_VERSION}}
+          Compress-Archive ./dist ./doc_to_renpy-windows-${{env.BUILD_VERSION}}.zip
       - uses: actions/upload-artifact@v3
         with:
           name: doc_to_renpy-windows-${{env.BUILD_VERSION}}
