@@ -5,8 +5,8 @@ jobs:
     name: windows-build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: "pip install -r requirements.txt"
@@ -23,8 +23,8 @@ jobs:
           $branch_name=$local_ref_name.replace("/", "-")
           echo "BUILD_VERSION=$branch_name" >> $env:GITHUB_ENV
       - run: |
-          Compress-Archive ./dist ./doc_to_renpy-windows-${{env.BUILD_VERSION}}
-      - uses: actions/upload-artifact@v3
+          Compress-Archive ./dist ./doc_to_renpy-windows-${{env.BUILD_VERSION}}.zip
+      - uses: actions/upload-artifact@v4
         with:
           name: doc_to_renpy-windows-${{env.BUILD_VERSION}}
           path: doc_to_renpy-windows-${{env.BUILD_VERSION}}.zip
@@ -33,8 +33,8 @@ jobs:
     name: linux-build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: "pip install -r requirements.txt"
@@ -52,17 +52,17 @@ jobs:
           echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
       - run: |
           tar -cvf doc_to_renpy-linux-${{env.BUILD_VERSION}}.tar.gz ./dist
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: doc_to_renpy-linux-${{env.BUILD_VERSION}}
           path: doc_to_renpy-linux-${{env.BUILD_VERSION}}.tar.gz
           retention-days: 2
   mac-build:
     name: mac-build
-    runs-on: macos-11
+    runs-on: macos-14
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: "pip install -r requirements.txt"
@@ -80,7 +80,7 @@ jobs:
           echo "BUILD_VERSION=${local_ref_name//[\/]/-}" >> $GITHUB_ENV
       - run: |
           ditto -c -k --sequesterRsrc --keepParent ./dist doc_to_renpy-macos-${{env.BUILD_VERSION}}.zip
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: doc_to_renpy-macos-${{env.BUILD_VERSION}}
           path: doc_to_renpy-macos-${{env.BUILD_VERSION}}.zip
