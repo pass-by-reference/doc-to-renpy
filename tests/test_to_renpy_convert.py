@@ -63,12 +63,35 @@ class ConvertToRenpyPrivateTest(unittest.TestCase):
     # Setup dummy convert to renpy
     self.convert_renpy = ConvertToRenpy(None, [], None)
 
-  def test_handle_escape_characters(self):
+  def test_handle_escape_characters_double_quote(self):
     text = "wow that \"thing\" is dumb"
 
     new_text = self.convert_renpy.handle_escape_characters(text)
 
     self.assertEqual(new_text, 'wow that \\"thing\\" is dumb')
+
+  def test_handle_escape_characters_single_quote(self):
+    text = "I don't think he knows about 'second breakfast'"
+
+    new_text = self.convert_renpy.handle_escape_characters(text)
+
+    self.assertEqual(new_text, "I don\\'t think he knows about \\'second breakfast\\'")
+
+  def test_handle_escape_characters_percent(self):
+    text = "0.00001% of success"
+
+    new_text = self.convert_renpy.handle_escape_characters(text)
+
+    self.assertEqual(new_text, "0.00001\\% of success")
+
+  def test_handle_escape_characters_backslash(self):
+    text = "what this \\ or that"
+
+    new_text = self.convert_renpy.handle_escape_characters(text)
+
+    # Result is two backslash. But to represent that in a python string
+    # we need four backslashes
+    self.assertEqual(new_text, "what this \\\\ or that")
 
   def test_format_indentation_dialogue(self):
     chunk = TextChunk()
