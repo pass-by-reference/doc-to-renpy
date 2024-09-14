@@ -77,6 +77,15 @@ class ConvertToRenpy:
     return text
 
   def handle_escape_characters(self, text : str):
+    """
+    In renpy, there are special characters that need to be handled
+
+    https://www.renpy.org/doc/html/text.html#escape-characters
+    """
+
+    if "\\" in text:
+      text = text.replace("\\", "\\\\")
+
     if "\"" in text:
       text = text.replace('\"', '\\"')
 
@@ -84,7 +93,7 @@ class ConvertToRenpy:
       text = text.replace("\'", "\\'")
 
     if "%" in text:
-      text = text.replace("%", "\%")
+      text = text.replace("%", "\\%")
 
     return text
 
